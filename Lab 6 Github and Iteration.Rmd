@@ -1,0 +1,30 @@
+---
+title: "Lab 6 Github and Iteration"
+author: "Jasmin Cabarios"
+date: "7/31/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+xmas <- read.csv("https://www.dropbox.com/s/e584pryn8evm1gz/xmas.csv?dl=1")
+
+```
+
+# Step One
+
+Note that the gifts are listed in singular: for example, on day 5 the narrator receives “5 golden rings”, but the entry in the dataset for the gift on day 5 simply says “ring”.
+In your twelvedays package, navigate to the file pluralize_gift.R in the R folder. You will find some incomplete code for a function called pluralize_gift that takes a gift and returns the appropriate plural.
+Complete this function code.
+
+```{r}
+
+
+
+```
+
