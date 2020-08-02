@@ -11,10 +11,12 @@
 #'
 #' @export
 pluralize_gift <- function(gift){
+  newgift <- gift
 
-gift <- gift %>%
-  str_replace()
-
-return(gift)
+  newgift <- newgift%>%
+    str_replace("oo", "ee") %>%
+    str_replace("y$", "ies") %>%
+    str_replace(newgift, glue("{newgift}s") )
 
 }
+

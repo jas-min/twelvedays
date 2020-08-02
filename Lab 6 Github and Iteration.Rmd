@@ -12,6 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
+library(tidyverse)
+library(purrr)
+library(dplyr)
 xmas <- read.csv("https://www.dropbox.com/s/e584pryn8evm1gz/xmas.csv?dl=1")
 
 ```
@@ -24,7 +27,108 @@ Complete this function code.
 
 ```{r}
 
+pluralize_gift <- function(gift){
+  newgift <- gift
 
+  newgift <- newgift%>%
+    str_replace("oo", "ee") %>%
+    str_replace("y$", "ies") %>%
+    str_replace(newgift, glue("{newgift}s") ) %>%
+    str_replace("partridges", "partridge")
+    
+  
+  
+}
+
+xmas <- xmas %>%
+  mutate(Gift.Item = (map_chr(xmas$Gift.Item, pluralize_gift)))
+```
+
+# Step 2
+
+Write a function called make_phrase that takes as input the necessary information, and returns a phrase.
+should return:
+
+"ten lords a-leaping"
+
+Try your function out on the xmas data, by making a new variable containing the daily phrases.
+
+
+
+```{r}
+
+xmas <- xmas %>%
+  mutate(num_word = c("one", "two", "three", "four", 
+                      "five", "six", "seven", "eight", 
+                      "nine", "ten", "eleven", "twelve"))
+
+make_phrase <- function(num, num_word, item, verb = " ", adjective = " ", location = " ", nums) {
+
+  verb <- str_replace_na(verb, "")
+  adjective <- str_replace_na(adjective, "")
+  location <- str_replace_na(location, "")
+ 
+  return(trimws(gsub("\\s+", " ", glue("{nums} {adjective} {item} {verb} {location}"))))
+}
+
+
+make_phrase(num = 10, 
+            num_word = "ten", 
+            item = "lords", 
+            verb = "a-leaping", 
+            adjective = "", 
+            location = "",
+            nums = "ten")
+make_phrase(num = 2, 
+            num_word = "two", 
+            item = "doves", 
+            verb = "", 
+            adjective = "turtle", 
+            location = "",
+            nums = "two")
+
+
+
+
+xmas <- xmas %>%
+  mutate(
+    Full.Phrase = pmap_chr(list(Day, Day.in.Words, Gift.Item, Verb, 
+                                Adjective, Location, num_word), make_phrase)
+  )
+
+print(xmas$Full.Phrase)
 
 ```
+
+
+# Step Three
+Write a function called sing_line that takes as input:
+A dataset
+A number indicating which day to sing about
+The name of a column in the dataset that contains the phrases for each day.
+
+
+```{r}
+sing_day <- function(dataset, days, line, phrase_col){
+
+  phrases <- dataset %>% pull({{phrase_col}})
+  days <- dataset %>% pull({{days}})
+  day <- days[line]
+  
+  
+  phrases <- phrases[line:1]
+  new.phrase <- glue_collapse(map(phrases, paste), sep = "\n")
+ 
+  song <- glue("On the {day} day of Christmas, my true love sent to me,
+               {new.phrase}.")
+  
+  
+  return(song)
+  
+}
+
+sing_day(xmas, Day.in.Words, 12, Full.Phrase)
+
+```
+
 

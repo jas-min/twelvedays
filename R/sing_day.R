@@ -13,11 +13,20 @@
 #' @import purrr
 #'
 #' @export
-sing_day <- function(dataset, line, phrase_col){
+sing_day <- function(dataset, days, line, phrase_col){
 
   phrases <- dataset %>% pull({{phrase_col}})
+  days <- dataset %>% pull({{days}})
+  day <- days[line]
 
-  #????
 
+  phrases <- phrases[line:1]
+  new.phrase <- glue_collapse(map(phrases, paste), sep = "\n")
+
+  song <- glue("On the {day} day of Christmas, my true love sent to me,
+               {new.phrase}.")
+
+
+  return(song)
 
 }

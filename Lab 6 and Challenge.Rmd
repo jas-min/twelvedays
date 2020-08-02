@@ -1,0 +1,47 @@
+---
+title: "Lab 6 and Challenge"
+author: "Jasmin Cabarios"
+date: "8/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+library(twelvedays)
+
+xmas2 <- read.csv("https://www.dropbox.com/s/ap2hqssese1ki4j/xmas_2.csv?dl=1")
+```
+
+# Step One
+```{r}
+xmas2 <- pluralize_gift(xmas2$Gift.Item)
+```
+
+
+
+# Step Two
+```{r}
+xmas2 <- xmas2 %>%
+  mutate(num_word = c("one", "two", "three", "four", 
+                      "five", "six", "seven", "eight", 
+                      "nine", "ten", "eleven", "twelve"))
+
+xmas2 %>%
+  mutate(
+    Full.Phrase = pmap_chr(list(Day, Day.in.Words, Gift.Item, Verb, 
+                                Adjective, Location, num_word), make_phrase)
+  )
+```
+
+
+
+# Step Three
+```{r}
+sing_day(xmas2, Day.in.Words, 12, Full.Phrase)
+```
+
