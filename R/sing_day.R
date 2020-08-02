@@ -17,7 +17,11 @@ sing_day <- function(dataset, line, phrase_col){
 
   phrases <- dataset %>% pull({{phrase_col}})
 
-  #????
+glue(
+  "On the second day of Christmas, my true love sent to me,
+  two turtle doves
+  and a partridge in a pear tree."
+)
 
 
 }
