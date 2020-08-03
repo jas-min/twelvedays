@@ -11,37 +11,56 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-```{r}
+```{r include=FALSE}
 library(twelvedays)
-
+library(tidyverse)
+library(purrr)
 xmas2 <- read.csv("https://www.dropbox.com/s/ap2hqssese1ki4j/xmas_2.csv?dl=1")
+xmas <- read.csv("https://www.dropbox.com/s/e584pryn8evm1gz/xmas.csv?dl=1")
 ```
 
 # Step One
 ```{r}
-xmas2 <- pluralize_gift(xmas2$Gift.Item)
+xmas2 <- xmas2 %>%
+  mutate(Gift.Item = (map_chr(xmas2$Gift.Item, pluralize_gift)))
+
+xmas2
+
+
 ```
 
 
 
 # Step Two
+
+Here is my repository:
+https://github.com/jas-min/twelvedays
+
 ```{r}
 xmas2 <- xmas2 %>%
   mutate(num_word = c("one", "two", "three", "four", 
                       "five", "six", "seven", "eight", 
                       "nine", "ten", "eleven", "twelve"))
 
-xmas2 %>%
+xmas2 <- xmas2 %>%
   mutate(
     Full.Phrase = pmap_chr(list(Day, Day.in.Words, Gift.Item, Verb, 
                                 Adjective, Location, num_word), make_phrase)
   )
+
+xmas2
 ```
 
 
 
+
 # Step Three
+
+I kept getting an error trying to use sapply or any mapping function to print out the whole song.
 ```{r}
-sing_day(xmas2, Day.in.Words, 12, Full.Phrase)
+for (i in 12:1) {
+  print(sing_day(xmas2, Day.in.Words, 12, Full.Phrase))
+}  
+
 ```
 

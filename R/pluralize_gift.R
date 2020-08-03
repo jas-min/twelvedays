@@ -19,6 +19,6 @@ pluralize_gift <- function(gift){
     str_replace(newgift, glue("{newgift}s") )
 
 
-  return(gift)
+  return(newgift)
 }
 
