@@ -14,7 +14,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(purrr)
+<<<<<<< HEAD
 library(dplyr)
+=======
+>>>>>>> 7e8bdb54c674184c7379366196bba9a2647e5442
 xmas <- read.csv("https://www.dropbox.com/s/e584pryn8evm1gz/xmas.csv?dl=1")
 
 ```
@@ -90,14 +93,21 @@ make_phrase(num = 2,
 
 
 
+<<<<<<< HEAD
 xmas <- xmas %>%
+=======
+xmas %>%
+>>>>>>> 7e8bdb54c674184c7379366196bba9a2647e5442
   mutate(
     Full.Phrase = pmap_chr(list(Day, Day.in.Words, Gift.Item, Verb, 
                                 Adjective, Location, num_word), make_phrase)
   )
+<<<<<<< HEAD
 
 print(xmas$Full.Phrase)
 
+=======
+>>>>>>> 7e8bdb54c674184c7379366196bba9a2647e5442
 ```
 
 
@@ -109,6 +119,7 @@ The name of a column in the dataset that contains the phrases for each day.
 
 
 ```{r}
+<<<<<<< HEAD
 sing_day <- function(dataset, days, line, phrase_col){
 
   phrases <- dataset %>% pull({{phrase_col}})
@@ -128,6 +139,20 @@ sing_day <- function(dataset, days, line, phrase_col){
 }
 
 sing_day(xmas, Day.in.Words, 12, Full.Phrase)
+=======
+sing_day <- function(dataset, line, phrase_col){
+
+  phrases <- dataset %>% pull({{phrase_col}})
+  day <- dataset$Day.in.Words[line]
+  print(day)
+  
+  
+  
+  
+  
+}
+
+>>>>>>> 7e8bdb54c674184c7379366196bba9a2647e5442
 
 ```
 
